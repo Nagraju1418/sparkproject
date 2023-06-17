@@ -64,23 +64,6 @@ object Main {
     val customers_by_agemarital = spark.sql("select age, marital, count(*) as number from  mytable where y='yes' group by age, marital order by number desc")
       .show()
 
-    // 8. Do feature engineering for column—age and find right age effect on campaign
-    val age_levels = spark.udf.register("age_levels", (age:Int) => {
-      if (age <= 20)
-        "Teen"
-      else if (age > 20 && age <= 29)
-        "Young_adult"
-      else if (age > 29 && age <= 39)
-        "Adult"
-      else if (age > 39 && age < 49)
-        "Older_adult"
-      else if (age > 49 && age < 60)
-        "Young_senior"
-      else
-        "Senior" })
-    val effectoncampaign = data.withColumn("age", age_levels(data("age")))
-    effectoncampaign.show()
-
-    // 9 Plot the ‘age’ vs ‘y’ using any visualisation tool
+    
   }
 }
