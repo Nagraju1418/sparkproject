@@ -19,11 +19,11 @@ object Main {
     val data = spark.read.option("header", "true").csv("C:\\Users\\91703\\IdeaProjects\\projectR.scala\\input\\data.csv")
     data.show()
     //Give marketing success rate. (No. of people subscribed / total no. of entries) (Spark SQL)
-    data.createOrReplaceTempView("mytable")
-    val successDF = spark.sql("SELECT count(*) AS successCount FROM mytable WHERE poutcome = 'success'")
-    val failureDF = spark.sql("SELECT count(*) AS successCount FROM mytable WHERE poutcome = 'failure'")
+    data.createOrReplaceTempView("naveen")
+    val successDF = spark.sql("SELECT count(*) AS successCount FROM naveen WHERE poutcome = 'success'")
+    val failureDF = spark.sql("SELECT count(*) AS successCount FROM naveen WHERE poutcome = 'failure'")
     successDF.show()
-    val numDF = spark.sql("SELECT count(*) AS totalCount FROM mytable")
+    val numDF = spark.sql("SELECT count(*) AS totalCount FROM naveen")
 
     numDF.show()
     val successCount = successDF.first().getLong(0)
@@ -53,19 +53,20 @@ object Main {
 
     // 5. Check if age matters in marketing subscription for deposit
 
-    val  agematters = spark.sql("select age, count(*) as number from  mytable where y='yes' group by age order by number desc")
+    val  agematters = spark.sql("select age, count(*) as number from  naveen where y='yes' group by age order by number desc")
       .show()
 
     //6.Check if marital status mattered for a subscription to deposit.
-    val customers_by_marital = spark.sql("select marital, count(*) as number from mytable where y='yes' group by marital order by number desc")
+    val customers_by_marital = spark.sql("select marital, count(*) as number from naveen where y='yes' group by marital order by number desc")
       .show()
 
     //7 Check if age and marital status together mattered for a subscription to deposit scheme.
-    val customers_by_agemarital = spark.sql("select age, marital, count(*) as number from  mytable where y='yes' group by age, marital order by number desc")
+    val customers_by_agemarital = spark.sql("select age, marital, count(*) as number from  naveen where y='yes' group by age, marital order by number desc")
       .show()
 
     
   }
 }
+
 
 
